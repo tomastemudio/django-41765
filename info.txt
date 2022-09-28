@@ -1,0 +1,41 @@
+creamos una carpeta
+entramos 
+creamos un entorno virtual con "py -m venv <nombre entorno virtual>"
+activar el entorno virtual con ". <nombre entorno virtual>/Scripts/activate"
+( En caso de usar linux o mac reemplazar el 'Scripts' por 'bin )
+
+pip install Django
+
+para probar si django estaba instalado creamos un requirements.txt ejecutando 
+con el entorno virtual activo el siguiente codigo: "pip freeze > requirements.txt"
+
+crear un proyecto con
+django-admin startproject <nombre del proyecto>
+
+"Estructura de como deberia quedar la carpeta de nuestro proyecto por el momento"
+<nombre del proyecto>
+    | -> <nombre del proyecto>
+    | -> manage.py
+    | -> .gitignore
+    | -> venv
+    | -> requirements.txt
+
+
+Para los siguientes comandos recordar estar en al terminal a la altura del archivo manage.py
+Podemos revisarlo ejecutando el codigo "ls" estando en bash o el comando "dir" si utilizan powershell.
+
+generar la base de datos con la config base de django: "py manage.py migrate"
+
+luego levantamos el servidor: "py manage.py runserver"
+
+se creo .gitignore para ignorar carpetas o 
+archivos con info que no queremos pasarles a otros
+
+
+un paso a paso, por si alguien se perdió (una vez generado el entorno virtual):
+1) pip install django
+2) git init
+3) crear el .gitignore
+3) django-admin startproject nombredeproyecto
+4) python manage.py migrate
+5) python manage.py runserver
