@@ -4,14 +4,15 @@ from django.template import Context, Template, loader
 from django.shortcuts import render
 import random
 
-from home.models import Persona
+from home.models import Humano
 
 def hola(request):
-    return HttpResponse('<h1>Buenas clase 41765</h1>')
+    return render(request, "home/hola.html",{})
 
 def fecha(request):
     fecha_y_hora = datetime.now()
-    return HttpResponse(f'La fecha y hora actual es {fecha_y_hora}')
+    mostrar_fecha = f'La fecha y hora actual es {fecha_y_hora}'
+    return render(request, "home/fecha.html", {'mostrar': mostrar_fecha})
 
 def calcular_fecha_nacimiento(request,edad):
     fecha = datetime.now().year - edad
@@ -58,7 +59,7 @@ def prueba_template(request):
 
 def crear_persona(request, nombre, apellido):
 
-    persona = Persona(nombre=nombre, apellido=apellido, edad=random.randrange(1,99), fecha_nacimiento=datetime.now())
+    persona = Humano(nombre=nombre, apellido=apellido, edad=random.randrange(1,99), fecha_nacimiento=datetime.now())
     persona.save() ## Me guarda la persona en la base de datos.
 
     # template = loader.get_template('crear_persona.html')          
@@ -70,7 +71,7 @@ def crear_persona(request, nombre, apellido):
 
 def ver_personas(request):
 
-    personas = Persona.objects.all()      ## Le pedimos a la base de datos todos los objetos de Persona.
+    personas = Humano.objects.all()      ## Le pedimos a la base de datos todos los objetos de Humano.
 
     # template = loader.get_template('ver_personas.html')          
     # template_renderizado = template.render({'personas': personas})
