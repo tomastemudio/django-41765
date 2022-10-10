@@ -1,12 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <p>La persona se creo!</p>
-</body>
-</html>
+{% extends 'home/base.html' %}
+
+
+{% block title_pagina %}
+    <title>Crear persona</title>
+{% endblock title_pagina %}
+
+{% comment "" %} Primera forma de hacerlo {% endcomment %}
+{% comment %} {% block mi_contenido %} {% endcomment %}
+    {% comment %} <form action={% url 'crear_persona' %} method="POST">  'GET' sirve para hacer consultas/busquedas, la informacion la envia publica. 'POST' es para creacion, envia la informacion oculta en la consulta que hace.   {% endcomment %}
+        {% comment %} <input type="text" placeholder="Nombre"> <br> {% endcomment %}
+        {% comment %} <input type="text" placeholder="Apellido"><br> {% endcomment %}
+        {% comment %} <input type="button" value="Crear"> {% endcomment %}
+    {% comment %} </form> {% endcomment %}
+{% comment %} {% endblock mi_contenido %} {% endcomment %}
+
+{% block mi_contenido %}
+<form action={% url 'crear_persona' %} method="POST"> 
+    {% csrf_token %}  {% comment "" %} Hay que ponerlo siempre en un formulario{% endcomment %}
+    <p>
+        Nombre:
+        <input type="text" name ="nombre" placeholder="Nombre">
+    </p>
+    <p>
+        <label for="apellido">Apellido:</label>
+        <input type="text" name="apellido" placeholder="Apellido">
+    </p>
+    {% comment %} <input type="button" value="Crear"> {% endcomment %}
+    {% comment %} <input type="submit" value="Crear"> {% endcomment %}
+    <button>Crear</button>
+</form>
+{% endblock mi_contenido %}

@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from datetime import datetime, timedelta
 from django.template import Context, Template, loader
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import random
 
 from home.models import Humano
@@ -57,17 +57,23 @@ def prueba_template(request):
 
     return HttpResponse(template_renderizado)
 
-def crear_persona(request, nombre, apellido):
+def crear_persona(request): # Por defecto la vista de un formulario viene por GET. Para acceder por POST hay que hacer click en un button de formulario.
 
-    persona = Humano(nombre=nombre, apellido=apellido, edad=random.randrange(1,99), fecha_nacimiento=datetime.now())
-    persona.save() ## Me guarda la persona en la base de datos.
+    # print('POST')
+    # print(request.POST)  ## Es para que me de la informacion del POST.
+    # print('==='*20)
+    # print(request.method)
+    # print('==='*20)
 
-    # template = loader.get_template('crear_persona.html')          
-    # template_renderizado = template.render({'personas': persona})
+    if request.method == 'POST':    ## De esta manera puede guardar info en un POST y obtener info de un GET en la misma vista.
+        nombre = request.POST.get('nombre')
+        apellido = request.POST['apellido']
+        persona = Humano(nombre=nombre, apellido=apellido, edad=random.randrange(1,99), fecha_creacion=datetime.now())
+        persona.save() ## Me guarda la persona en la base de datos.
 
-    # return HttpResponse(template_renderizado)
+        return redirect('ver_personas')  ## Me lleva directo a 'Ver personas'.
 
-    return render(request, 'home/crear_personas.hmtl', {'personas': persona})
+    return render(request, 'home/crear_persona.html', {})
 
 def ver_personas(request):
 
