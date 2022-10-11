@@ -9,9 +9,20 @@ Ver personas
 {% endblock h1_texto_header %}
 
 {% block index_contenido %}
-<a class="navbar-brand" href={% url 'index' %}>Index</a>
+<a class="navbar-brand" href={% url 'crear_persona' %}>Crear persona</a>
 <p>Listado de personas:</p>
-    {% for persona in personas %}
-        <li>{{persona.nombre}} {{persona.apellido}} {{persona.edad}}</li>
-    {% endfor %}
+    <form action={% url 'ver_personas' %} method="GET"> {% comment "" %}El token no es necesario xq vamos por GET{% endcomment %}
+        {{formulario}}
+        <button>Buscar</button>
+    </form>
+    <p>
+        {% if personas %}
+            {% for persona in personas %}
+                <li>{{persona.nombre}} {{persona.apellido}} {{persona.edad}}</li>
+            {% endfor %}
+            {% else %}
+                <p>No se encontraron resultados</p>
+        {% endif %}
+
+    </p>
 {% endblock index_contenido %}

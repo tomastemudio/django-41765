@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from django.template import Context, Template, loader
 from django.shortcuts import render, redirect
 import random
+from home.forms import HumanoFormulario, BusquedaHumanoFormulario
 
 from home.models import Humano
 
@@ -66,25 +67,38 @@ def crear_persona(request): # Por defecto la vista de un formulario viene por GE
     # print('==='*20)
 
     if request.method == 'POST':    ## De esta manera puede guardar info en un POST y obtener info de un GET en la misma vista.
-        nombre = request.POST.get('nombre')
-        apellido = request.POST['apellido']
-        persona = Humano(nombre=nombre, apellido=apellido, edad=random.randrange(1,99), fecha_creacion=datetime.now())
-        persona.save() ## Me guarda la persona en la base de datos.
 
-        return redirect('ver_personas')  ## Me lleva directo a 'Ver personas'.
+        formulario = HumanoFormulario(request.POST)
+        
+        if formulario.is_valid():
+            data = formulario.cleaned_data
 
-    return render(request, 'home/crear_persona.html', {})
+            nombre = data['nombre'] 
+            apellido = data['apellido']
+            edad = data['edad']
+            data.get('fecha_creacion', datetime.now())
+
+            persona = Humano(nombre=nombre, apellido=apellido, edad=edad, fecha_creacion=datetime.now())
+            persona.save() ## Me guarda la persona en la base de datos.
+
+            return redirect('ver_personas')  ## Me lleva directo a 'Ver personas'.
+
+    formulario = HumanoFormulario()
+
+    return render(request, 'home/crear_persona.html', {'formulario': formulario})
 
 def ver_personas(request):
 
-    personas = Humano.objects.all()      ## Le pedimos a la base de datos todos los objetos de Humano.
+    nombre = request.GET.get('nombre')
 
-    # template = loader.get_template('ver_personas.html')          
-    # template_renderizado = template.render({'personas': personas})
+    if nombre:
+        personas = Humano.objects.filter(nombre__icontains = nombre)  ## El filter me permite buscar por atributo. El primero hace referencia al atributo. El '__icontains' nos da los que contienen 'nombre'.
+    else:
+        personas = Humano.objects.all()      ## Le pedimos a la base de datos todos los objetos de Humano.
 
-    # return HttpResponse(template_renderizado)
+    formulario = BusquedaHumanoFormulario()
 
-    return render(request, 'home/ver_personas.html', {'personas': personas})
+    return render(request, 'home/ver_personas.html', {'personas': personas, 'formulario': formulario})
 
 def index(request):
 

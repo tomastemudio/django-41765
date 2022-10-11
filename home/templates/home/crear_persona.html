@@ -17,16 +17,10 @@
 {% block mi_contenido %}
 <form action={% url 'crear_persona' %} method="POST"> 
     {% csrf_token %}  {% comment "" %} Hay que ponerlo siempre en un formulario{% endcomment %}
-    <p>
-        Nombre:
-        <input type="text" name ="nombre" placeholder="Nombre">
-    </p>
-    <p>
-        <label for="apellido">Apellido:</label>
-        <input type="text" name="apellido" placeholder="Apellido">
-    </p>
-    {% comment %} <input type="button" value="Crear"> {% endcomment %}
-    {% comment %} <input type="submit" value="Crear"> {% endcomment %}
+    <table>
+        {{formulario}}
+    </table>
+    
     <button>Crear</button>
 </form>
 {% endblock mi_contenido %}
