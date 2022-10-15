@@ -1,0 +1,17 @@
+{% extends 'padres/base.html' %}
+
+
+{% block title_pagina %}
+    <title>Eliminar mascota</title>
+{% endblock title_pagina %}
+
+{% block mi_contenido %}
+<form action={% url 'eliminar_mascota' mascota.id %} method="POST"> 
+    {% csrf_token %}
+    <p>
+        Confirma el borrado de la mascota {{mascota}}?
+    </p>
+    
+    <button>Confirmar</button>
+</form>
+{% endblock mi_contenido %}

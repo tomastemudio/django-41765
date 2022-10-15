@@ -76,7 +76,14 @@ def crear_persona(request): # Por defecto la vista de un formulario viene por GE
             nombre = data['nombre'] 
             apellido = data['apellido']
             edad = data['edad']
-            data.get('fecha_creacion', datetime.now())
+            # v1
+            fecha_creacion = data['fecha_creacion']
+            if not fecha_creacion:
+                fecha_creacion = datetime.now()
+            
+            # v2
+            # fecha_creacion = data['fecha_creacion'] or datetime.now()  ## Revise si la primer parte tiene algo
+            ## Revise si la primer parte tiene algo, si tiene algo lo guarda. Si la primera parte es vacia usa el datetime.now()
 
             persona = Humano(nombre=nombre, apellido=apellido, edad=edad, fecha_creacion=datetime.now())
             persona.save() ## Me guarda la persona en la base de datos.
