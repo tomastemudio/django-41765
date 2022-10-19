@@ -1,0 +1,17 @@
+{% extends 'padres/base.html' %}
+
+
+{% block title_pagina %}
+<title>Registro</title>
+{% endblock title_pagina %}
+
+{% block mi_contenido %}
+<form action={% url 'registrar' %} method="POST">
+    {% csrf_token %}
+    <table>
+        {{formulario}}
+    </table>
+    
+    <button>Registrarse</button>
+</form>
+{% endblock mi_contenido %}

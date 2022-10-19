@@ -5,6 +5,9 @@ from avanzado.forms import MascotaFormulario
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
+from django.contrib.auth.mixins import LoginRequiredMixin  # Para las clases basadas en vistas.
+from django.contrib.auth.decorators import login_required  # 'login_required' es un decorador que cubre toda la vista.
+
 # Create your views here.
 
 def ver_mascotas(request):
@@ -14,6 +17,7 @@ def ver_mascotas(request):
 
     return render(request, 'avanzado/ver_mascotas.html', {'mascotas': mascotas})
 
+@login_required                     # Manera con decorador
 def crear_mascotas(request):
 
     if request.method == 'POST':
@@ -91,13 +95,13 @@ class CrearMascotas(CreateView):
     template_name = 'avanzado/crear_mascota_cbv.html'
     fields = ['nombre', 'tipo', 'edad', 'fecha_nacimiento']
 
-class EditarMascotas(UpdateView):
+class EditarMascotas(LoginRequiredMixin, UpdateView):    # Fortma con mixin.
     model = Mascota
     success_url = '/avanzado/mascotas/'
     template_name = 'avanzado/editar_mascota_cbv.html'
     fields = ['nombre', 'tipo', 'edad', 'fecha_nacimiento']
 
-class EliminarMascota(DeleteView):
+class EliminarMascota(LoginRequiredMixin, DeleteView):  # Es necesario poner el 'LoginRequiredMixin' por delante.
     model = Mascota
     success_url = '/avanzado/mascotas/'                     ## Para que dsps vaya al listado
     template_name = 'avanzado/eliminar_mascota_cbv.html'
