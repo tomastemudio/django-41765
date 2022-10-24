@@ -1,0 +1,19 @@
+{% extends 'padres/base.html' %}
+
+
+{% block title_pagina %}
+<title>Editar perfil </title>
+{% endblock title_pagina %}
+
+{% block mi_contenido %}
+<form action={% url 'editar_perfil' %} method="POST" enctype='multipart/form-data'>
+    {% csrf_token %}
+    <table>
+        {{formulario}}
+    </table>
+    <button>Editar</button>
+</form>
+{% endblock mi_contenido %}
+
+
+{% comment %} El enctype=multipar/form-data hace que el formulario acepte imagenes {% endcomment %}
